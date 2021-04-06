@@ -4,12 +4,19 @@ const http = require('http');
 // Server should respond to all requests
 const server = http.createServer(function (req, res) {
   // Get URL and parse it
-  const parsedUrl = new URL(req.url, `http://${req.headers.host}`);
-  console.log(parsedUrl);
+  const parsedUrl = new URL(req.url, `http://${req.headers.host}`, {
+    parseQueryString: true,
+  });
 
   // Get the path
   const path = parsedUrl.pathname;
   const trimmedPath = path.replace(/^\/+|\/+$/g, '');
+
+  // Get the query string as an object
+  const queryStringObject = {};
+  for (const query of parsedUrl.searchParams) {
+    queryStringObject[query[0]] = query[1];
+  }
 
   // Get the HTTP Method
   const method = req.method.toLocaleLowerCase();
@@ -19,7 +26,7 @@ const server = http.createServer(function (req, res) {
 
   // Log the request path
   console.log(
-    `Request received on path: ${trimmedPath} with method: ${method}`
+    `Request received on path: ${trimmedPath} with method: ${method} and with these query string parameters: ${queryStringObject}`
   );
 });
 

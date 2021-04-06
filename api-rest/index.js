@@ -1,6 +1,7 @@
 // Dependencies
 const http = require('http');
 const StringDecoder = require('string_decoder').StringDecoder;
+const config = require('./config');
 
 // Server should respond to all requests
 const server = http.createServer(function (req, res) {
@@ -75,8 +76,8 @@ const server = http.createServer(function (req, res) {
 });
 
 // Start server, and have it listen on port
-server.listen(3000, function () {
-  console.log('Server is listening on port 3000');
+server.listen(config.port, function () {
+  console.log(`Server is listening on port ${config.port}`);
 });
 
 // Define the handlers
